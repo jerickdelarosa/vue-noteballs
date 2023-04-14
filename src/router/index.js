@@ -6,6 +6,8 @@ import MainNav from '@/components/navigations/MainNav.vue'
 /* Components */
 import ViewNotes from '@/views/ViewNotes.vue'
 import ViewStats from '@/views/ViewStats.vue'
+import ViewEditNote from '@/views/ViewEditNote.vue'
+
 
 /* 404 */
 import PageNotFound from '@/views/PageNotFound.vue'
@@ -16,6 +18,14 @@ const routes = [
         name: 'notes',
         components: {
             default: ViewNotes,
+            navigation: MainNav
+        }
+    },
+    {
+        path: '/edit-note/:id',
+        name: 'edit-note',
+        components: {
+            default: ViewEditNote,
             navigation: MainNav
         }
     },
