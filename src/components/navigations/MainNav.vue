@@ -1,47 +1,63 @@
 <template>
-    <nav class="navbar is-success" role="navigation" aria-label="main navigation">
-        <div class="container is-max-desktop">
-            <div class="navbar-brand">
-                <a class="navbar-item is-size-4 is-familiy-monospace">
-                    NOTEBALLS
-                </a>
+  <nav class="navbar is-success" role="navigation" aria-label="main navigation">
+    <div class="container is-max-desktop">
+      <div class="navbar-brand">
+        <a class="navbar-item is-size-4 is-familiy-monospace"> NOTEBALLS </a>
 
-                <a @click.prevent="showMobileNav = !showMobileNav" role="button" class="navbar-burger"
-                    :class="{ 'is-active': showMobileNav }" aria-label="menu" aria-expanded="false"
-                    data-target="navbarBasicExample">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
-            </div>
+        <a
+          @click.prevent="showMobileNav = !showMobileNav"
+          role="button"
+          class="navbar-burger"
+          :class="{ 'is-active': showMobileNav }"
+          aria-label="menu"
+          aria-expanded="false"
+          data-target="navbarBasicExample"
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
 
-            <div id="navbarBasicExample" class="navbar-menu" :class="{ 'is-active': showMobileNav }">
-                <div class="navbar-end">
-                    <RouterLink class="navbar-item" active-class="is-active" :to="{ name: 'notes' }">
-                        Notes
-                    </RouterLink>
-                    <RouterLink class="navbar-item" :to="{ name: 'stats' }">
-                        Stats
-                    </RouterLink>
-                </div>
-            </div>
+      <div
+        id="navbarBasicExample"
+        class="navbar-menu"
+        :class="{ 'is-active': showMobileNav }"
+      >
+        <div class="navbar-end">
+          <RouterLink
+            @click="showMobileNav = false"
+            class="navbar-item"
+            active-class="is-active"
+            :to="{ name: 'notes' }"
+          >
+            Notes
+          </RouterLink>
+          <RouterLink
+            @click="showMobileNav = false"
+            class="navbar-item"
+            :to="{ name: 'stats' }"
+          >
+            Stats
+          </RouterLink>
         </div>
-    </nav>
+      </div>
+    </div>
+  </nav>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref } from "vue";
 
-const showMobileNav = ref(false)
-
+const showMobileNav = ref(false);
 </script>
 
 <style>
 @media (max-width: 1023px) {
-    .navbar-menu {
-        position: absolute;
-        left: 0;
-        width: 100%;
-    }
+  .navbar-menu {
+    position: absolute;
+    left: 0;
+    width: 100%;
+  }
 }
 </style>
