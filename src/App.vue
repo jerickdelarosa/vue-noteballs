@@ -10,7 +10,14 @@
 </template>
 
 <script setup>
+import { useNoteStore } from "@/stores/useNote";
+import { onMounted } from "vue";
 
+const storeNotes = useNoteStore();
+
+onMounted(() => {
+  storeNotes.getNotes();
+});
 </script>
 
 <style scoped></style>

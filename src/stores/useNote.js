@@ -1,11 +1,13 @@
 import { defineStore } from 'pinia'
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
+import { db } from '@/js/firebase'
 
 export const useNoteStore = defineStore({
     id: 'useNote',
     state: () => {
         return {
             notes: [
-                {
+                /* {
                     id: 'id1',
                     content:
                         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantiu doloremque, sunt earum quidem et vero quae maxime distinctio delectu debitis, quisquam quaerat modi nostrum impedit facere quia repudianda molestiae ilwewo?",
@@ -17,11 +19,28 @@ export const useNoteStore = defineStore({
                 {
                     id: 'id3',
                     content: "Sample notes",
-                }
+                } */
             ]
         }
     },
     actions: {
+        async getNotes() {
+            onSnapshot(collection(db, "notes"), (querySnapshot) => {
+                let notes = []
+                const cities = [];
+                querySnapshot.forEach((doc) => {
+                    let note = {
+                        id: doc.id,
+                        content: doc.data().content
+                    }
+                    notes.push(note);
+                });
+                this.notes = notes
+            });
+
+            // later on
+            // unsubscribe();
+        },
         addNote(newNoteContent) {
             let currentDate = new Date().getTime(),
                 id = currentDate.toString();
