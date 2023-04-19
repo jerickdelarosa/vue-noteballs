@@ -40,10 +40,6 @@ noteContent.value = storeNotes.getNoteContent(route.params.id);
 
 const handleSaveClicked = () => {
   // for payload params
-  let payload = {
-    id: route.params.id,
-    content: noteContent.value,
-  };
   storeNotes.updateNote(route.params.id, noteContent.value);
   router.push("/");
 };
