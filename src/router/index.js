@@ -7,6 +7,7 @@ import MainNav from '@/components/navigations/MainNav.vue'
 import ViewNotes from '@/views/ViewNotes.vue'
 import ViewStats from '@/views/ViewStats.vue'
 import ViewEditNote from '@/views/ViewEditNote.vue'
+import ViewAuth from '@/views/ViewAuth.vue'
 
 
 /* 404 */
@@ -34,6 +35,14 @@ const routes = [
         name: 'stats',
         components: {
             default: ViewStats,
+            navigation: MainNav
+        }
+    },
+    {
+        path: '/auth',
+        name: 'auth',
+        components: {
+            default: ViewAuth,
             navigation: MainNav
         }
     },

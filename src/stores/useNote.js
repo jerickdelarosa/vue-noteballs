@@ -35,11 +35,13 @@ export const useNoteStore = defineStore({
                     id: 'id3',
                     content: "Sample notes",
                 } */
-            ]
+            ],
+            notesLoaded: false
         }
     },
     actions: {
         async getNotes() {
+            this.notesLoaded = false
             onSnapshot(notesCollectionQuery, (querySnapshot) => {
                 let notes = []
                 querySnapshot.forEach((doc) => {
@@ -50,7 +52,10 @@ export const useNoteStore = defineStore({
                     }
                     notes.push(note);
                 });
-                this.notes = notes
+                setTimeout(() => {
+                    this.notes = notes
+                    this.notesLoaded = true
+                }, 2000)
             });
 
             // later on

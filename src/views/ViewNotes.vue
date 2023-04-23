@@ -1,6 +1,6 @@
 <template>
   <div class="notes">
-    <AddEditNote v-model="newNote" placeholder="Add a new note" ref="addEditNoteRef">
+    <AddEditNote class="mb-4" v-model="newNote" placeholder="Add a new note" ref="addEditNoteRef">
       <template #buttons>
         <button @click="addNote" :disabled="!newNote" class="button is-link has-background-success">
           Add New Note
@@ -8,7 +8,16 @@
       </template>
     </AddEditNote>
 
-    <Note v-for="note in storeNotes.notes" :key="`note-key-${note.id}`" :note="note" />
+    <progress v-if="!storeNotes.notesLoaded" class="progress is-large is-success" max="100" />
+
+    <template v-else>
+      <Note v-for="note in storeNotes.notes" :key="`note-key-${note.id}`" :note="note" />
+
+      <div class="is-size-4 has-text-centered has-text-grey-light is-family-monospace py-6"
+        v-if="!storeNotes.notes.length">
+        No notes here yet..
+      </div>
+    </template>
   </div>
 </template>
 
