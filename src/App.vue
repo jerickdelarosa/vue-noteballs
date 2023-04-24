@@ -10,14 +10,15 @@
 </template>
 
 <script setup>
-import { useNoteStore } from "@/stores/useNote";
+import { useStoreAuth } from "@/stores/storeAuth";
 import { onMounted } from "vue";
 
-const storeNotes = useNoteStore();
+const storeAuth = useStoreAuth();
 
 onMounted(() => {
-  storeNotes.getNotes();
+  storeAuth.init();
 });
+
 </script>
 
 <style scoped></style>
