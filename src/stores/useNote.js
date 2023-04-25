@@ -11,38 +11,37 @@ import {
     query, orderBy
 } from "firebase/firestore";
 import { db } from '@/js/firebase'
+import { useStoreAuth } from '@/stores/storeAuth'
 
-const notesCollectionRef = collection(db, "notes");
-
-/* query to desc order */
-const notesCollectionQuery = query(notesCollectionRef, orderBy("date", "desc"));
+let notesCollectionRef
+let notesCollectionQuery
+let getNotesSnapshot = null
 
 export const useNoteStore = defineStore({
     id: 'useNote',
     state: () => {
         return {
             notes: [
-                /* {
-                    id: 'id1',
-                    content:
-                        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantiu doloremque, sunt earum quidem et vero quae maxime distinctio delectu debitis, quisquam quaerat modi nostrum impedit facere quia repudianda molestiae ilwewo?",
-                },
-                {
-                    id: 'id2',
-                    content: "This is a shorter notes.",
-                },
-                {
-                    id: 'id3',
-                    content: "Sample notes",
-                } */
             ],
             notesLoaded: false
         }
     },
     actions: {
+        init() {
+            // initialize our database refs
+            const storeAuth = useStoreAuth()
+
+            // path uid
+            notesCollectionRef = collection(db, "users", storeAuth.user.id, "notes");
+
+            /* query to desc order */
+            notesCollectionQuery = query(notesCollectionRef, orderBy("date", "desc"));
+            this.getNotes()
+        },
         async getNotes() {
             this.notesLoaded = false
-            onSnapshot(notesCollectionQuery, (querySnapshot) => {
+
+            getNotesSnapshot = onSnapshot(notesCollectionQuery, (querySnapshot) => {
                 let notes = []
                 querySnapshot.forEach((doc) => {
                     let note = {
@@ -52,14 +51,16 @@ export const useNoteStore = defineStore({
                     }
                     notes.push(note);
                 });
-                setTimeout(() => {
-                    this.notes = notes
-                    this.notesLoaded = true
-                }, 2000)
+                this.notes = notes
+                this.notesLoaded = true
+            }, error => {
+                console.log('error msg: ', error.message)
             });
 
-            // later on
-            // unsubscribe();
+        },
+        clearNotes() {
+            this.notes = []
+            if (getNotesSnapshot) getNotesSnapshot(); // unsubscribe from any active listener
         },
         async addNote(newNoteContent) {
             let currentDate = new Date().getTime(),

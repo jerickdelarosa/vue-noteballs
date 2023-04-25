@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { useStoreAuth } from '@/stores/storeAuth'
 
 /* Navigation */
 import MainNav from '@/components/navigations/MainNav.vue'
@@ -60,5 +61,17 @@ const router = createRouter({
     history: createWebHashHistory(),
     routes
 })
+
+// navigation guards
+router.beforeEach(async (to, from) => {
+    const storeAuth = useStoreAuth()
+    if (!storeAuth.user.id && to.name !== 'auth') {
+        return { name: 'auth' }
+    }
+    if (storeAuth.user.id && to.name === 'auth') {
+        return false
+    }
+})
+
 
 export default router
